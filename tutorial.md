@@ -9,15 +9,18 @@ This tutorial guides you through setting up a continuous integration (CI) pipeli
   https://github.com/GoogleCloudPlatform/cluster-toolkit
 
 
-To kick off the demo / tutorial, please click on the link:
+**Kick off the demo / tutorial**, please click on the link:
 https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/GoogleCloudPlatform/cluster-toolkit
 
+Downloading the files here:
+```bash
+wget https://github.com/thomasnyc/a3mega-deployment-set/archive/refs/heads/main.zip
+unzip main.zip
+```
 
-
-Then copy the 3 files in this repo to the cluster-toolkit directory.
-* a3mega-slurm-deployment-thomashk.yaml
-* a3mega-lustre-slurm-blueprint.yaml
-* tutorial.md
+Get the tutorial up:
+```bash
+teachme a3mega-deployment-set-main/tutorial.md
 
 Now, you are ready for running the Prerequisties:
 
@@ -72,7 +75,7 @@ Since the deployment and blueprint files are provided by the team, There is no n
 If you never create the network and the image, please run this option:
 
 ```bash
-./gcluster deploy -d a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml --auto-approve
+./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml --auto-approve
 ```
 
 Note:  
