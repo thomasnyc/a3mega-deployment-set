@@ -72,7 +72,7 @@ Since the deployment and blueprint files are provided by the team, There is no n
 If you never create the network and the image, please run this option:
 
 ```bash
-./gcluster deploy -d a3mega-slurm-deployment.yaml a3mega-lustre-slurm-blueprint.yaml --auto-approve
+./gcluster deploy -d a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml --auto-approve
 ```
 
 Note:  
