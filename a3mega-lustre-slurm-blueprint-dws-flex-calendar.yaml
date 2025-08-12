@@ -392,6 +392,10 @@ deployment_groups:
       local_mount: /gcs
       mount_options: defaults,rw,_netdev,implicit_dirs,allow_other,implicit_dirs,file_mode=777,dir_mode=777
       random_suffix: true
+  - id: private_service_access
+    source: community/modules/network/private-service-access
+    use:
+    - sysnet
   - id: homefs
     source: modules/file-system/filestore
     use:
@@ -436,10 +440,6 @@ deployment_groups:
   # removed by deleting the private_service_access module and any references to
   # the module by Filestore modules.
   # https://cloud.google.com/vpc/docs/configure-private-services-access#permissions
-  - id: private_service_access
-    source: community/modules/network/private-service-access
-    use:
-    - sysnet
  
   - id: debug_nodeset
     use: [sysnet]
