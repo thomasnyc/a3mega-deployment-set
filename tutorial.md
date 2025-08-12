@@ -27,7 +27,6 @@ Now, you are ready for running the Prerequisties:
 
 ---
 
-
 ## **Prerequisites**
 
 Before you begin, make sure you have the following:
@@ -43,21 +42,21 @@ gcloud auth login
 ```
 
 ```bash
-  gcloud auth application-default login
+gcloud auth application-default login
 ```
 Note:
 Credentials saved to file: [/tmp/xxxxx/application_default_credentials.json]
 Copy them to this command below
 
 ```bash
-  export GOOGLE_APPLICATION_CREDENTIALS=
+export GOOGLE_APPLICATION_CREDENTIALS=
 ```
 
 
 * Set the default GCP project:
 
 ```bash
-  gcloud config set project 
+gcloud config set project 
 ```
 
 * You can install terraform, go, packer with this script:
