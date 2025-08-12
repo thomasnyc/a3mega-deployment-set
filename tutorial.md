@@ -63,7 +63,7 @@ gcloud storage buckets update gs://${TF_STATE_BUCKET} --versioning
 **Full Deployment** - This is the single click deployment. If you did not yet create the network and built the image, please run this option, after you've updated the values in a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml (including ensuring that the `TF_STATE_BUCKET`, `PROJECT_ID`, and `REGION` variables are updated to reflect what's above and what you plan on setting up in your environment):
 
 ```bash
-cluster-toolkit/gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml --auto-approve
+./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml --auto-approve
 ```
 
 Note:  
@@ -78,7 +78,7 @@ If you want to Deploy / Destroy the clsuter only. Please follow the following st
 Deploy the cluster only: 
 
 ```bash
-  gcluster import-inputs a3mega-lustre-base/cluster
+  ./gcluster import-inputs a3mega-lustre-base/cluster
   terraform -chdir=a3mega-lustre-base/cluster apply
 ```
 
