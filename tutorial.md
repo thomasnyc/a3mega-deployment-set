@@ -7,11 +7,15 @@ Before you begin, make sure you have the following:
 * The **<code>gcloud</code> command-line tool** installed and authenticated (`gcloud auth login`) & (`gcloud auth application-default login`) follow the command below: 
 * A **Git repository** (e.g., on GitHub, GitLab, or Cloud Source Repositories) containing your Cluster Toolkit configuration files. Cloud shell command shall already clone the repository required.
 
+* Set the default GCP project:
+```bash
+gcloud config set project 
+```
+
 * Run the gcloud auth login and gcloud auth application-default login 
 ```bash
 gcloud auth login
 ```
-
 ```bash
 gcloud auth application-default login
 ```
@@ -21,13 +25,6 @@ Copy them to this command below
 
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS=
-```
-
-
-* Set the default GCP project:
-
-```bash
-gcloud config set project 
 ```
 
 * You can install terraform, go, packer with this script:
