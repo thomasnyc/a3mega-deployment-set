@@ -27,7 +27,7 @@ Copy them to this command below
 export GOOGLE_APPLICATION_CREDENTIALS=
 ```
 
-* You can install terraform, go, packer with this script:
+* **Optional** You can install terraform, go, packer with this script:
 ```bash
 pushd a3mega-deployment-set-main
 chmod 755 cloudshell-install-dependence.sh 
