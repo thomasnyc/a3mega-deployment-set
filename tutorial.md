@@ -37,12 +37,9 @@ popd
 * Then we need to download and run **make** command to build the **ghpc and gcluster** command.
 
 ```bash
-git clone https://github.com/GoogleCloudPlatform/cluster-toolkit
-pushd cluster-toolkit
 make
 ./gcluster --version
 ./gcluster --help
-popd
 ```
 ---
 ## **Step 3: Deploy the Cluster 🎉**
