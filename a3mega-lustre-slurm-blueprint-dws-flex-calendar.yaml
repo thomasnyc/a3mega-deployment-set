@@ -26,7 +26,8 @@ vars:
   sys_net_range: 172.16.0.0/16
   source_image_family: ubuntu-accelerator-2204-amd64-with-nvidia-570
   source_image_project_id: [ubuntu-os-accelerator-images]
-  a3mega_partition_name: a3mega
+  a3mega_flex_partition_name: a3mega-flex
+  a3mega_res_partition_name: a3mega-res
   a3mega_maintenance_interval: ""
   local_mount_homefs: /home
   instance_image_custom: true
@@ -583,7 +584,7 @@ deployment_groups:
     use:
     - a3mega_nodeset
     settings:
-      partition_name: $(vars.a3mega_partition_name)
+      partition_name: $(vars.a3mega_flex_partition_name)
       exclusive: false
       is_default: true
       partition_conf:
@@ -622,7 +623,7 @@ deployment_groups:
     use:
     - a3mega_reservation_nodeset
     settings:
-      partition_name: $(vars.a3mega_partition_name)
+      partition_name: $(vars.a3mega_res_partition_name)
       exclusive: false
       is_default: true
       partition_conf:
@@ -641,8 +642,10 @@ deployment_groups:
           #!/bin/bash
           SLURM_ROOT=/opt/apps/adm/slurm
           mkdir -m 0755 -p "${SLURM_ROOT}/scripts"
-          mkdir -p "${SLURM_ROOT}/partition-$(vars.a3mega_partition_name)-prolog_slurmd.d"
-          mkdir -p "${SLURM_ROOT}/partition-$(vars.a3mega_partition_name)-epilog_slurmd.d"
+          mkdir -p "${SLURM_ROOT}/partition-$(vars.a3mega_flex_partition_name)-prolog_slurmd.d"
+          mkdir -p "${SLURM_ROOT}/partition-$(vars.a3mega_flex_partition_name)-epilog_slurmd.d"
+          mkdir -p "${SLURM_ROOT}/partition-$(vars.a3mega_res_partition_name)-prolog_slurmd.d"
+          mkdir -p "${SLURM_ROOT}/partition-$(vars.a3mega_res_partition_name)-epilog_slurmd.d"
           mkdir -p "${SLURM_ROOT}/prolog_slurmd.d"
           mkdir -p "${SLURM_ROOT}/epilog_slurmd.d"
           # enable the use of password-free sudo within Slurm jobs on all compute nodes
@@ -656,10 +659,13 @@ deployment_groups:
           curl -s -o "${SLURM_ROOT}/scripts/rxdm" \
               https://raw.githubusercontent.com/GoogleCloudPlatform/slurm-gcp/master/tools/prologs-epilogs/receive-data-path-manager-mega
           chmod 0755 "${SLURM_ROOT}/scripts/rxdm"
-          ln -s "${SLURM_ROOT}/scripts/rxdm" "${SLURM_ROOT}/partition-$(vars.a3mega_partition_name)-prolog_slurmd.d/rxdm.prolog_slurmd"
-          ln -s "${SLURM_ROOT}/scripts/rxdm" "${SLURM_ROOT}/partition-$(vars.a3mega_partition_name)-epilog_slurmd.d/rxdm.epilog_slurmd"
+          ln -s "${SLURM_ROOT}/scripts/rxdm" "${SLURM_ROOT}/partition-$(vars.a3mega_flex_partition_name)-prolog_slurmd.d/rxdm.prolog_slurmd"
+          ln -s "${SLURM_ROOT}/scripts/rxdm" "${SLURM_ROOT}/partition-$(vars.a3mega_flex_partition_name)-epilog_slurmd.d/rxdm.epilog_slurmd"
+          ln -s "${SLURM_ROOT}/scripts/rxdm" "${SLURM_ROOT}/partition-$(vars.a3mega_res_partition_name)-prolog_slurmd.d/rxdm.prolog_slurmd"
+          ln -s "${SLURM_ROOT}/scripts/rxdm" "${SLURM_ROOT}/partition-$(vars.a3mega_res_partition_name)-epilog_slurmd.d/rxdm.epilog_slurmd"
           # enable a GPU health check that runs at the completion of all jobs on A3mega nodes
-          ln -s "/slurm/scripts/tools/gpu-test" "${SLURM_ROOT}/partition-$(vars.a3mega_partition_name)-epilog_slurmd.d/gpu-test.epilog_slurmd"
+          ln -s "/slurm/scripts/tools/gpu-test" "${SLURM_ROOT}/partition-$(vars.a3mega_flex_partition_name)-epilog_slurmd.d/gpu-test.epilog_slurmd"
+          ln -s "/slurm/scripts/tools/gpu-test" "${SLURM_ROOT}/partition-$(vars.a3mega_res_partition_name)-epilog_slurmd.d/gpu-test.epilog_slurmd"
       - type: shell
         destination: reset_enroot.sh
         content: |
