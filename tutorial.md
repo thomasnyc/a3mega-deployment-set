@@ -43,11 +43,14 @@ gcloud auth login
 
 ```bash
   gcloud auth application-default login
+```
+Note:
+Credentials saved to file: [/tmp/xxxxx/application_default_credentials.json]
+Copy them to this command below
+
+```bash
   export GOOGLE_APPLICATION_CREDENTIALS=
 ```
-Note: 
-Credentials saved to file: [/tmp/xxxxx/application_default_credentials.json]
-Then copy the full path to export GOOGLE_APPLICATION_CREDENTIALS=xxx.json
 
 
 * Set the default GCP project:
@@ -56,26 +59,46 @@ Then copy the full path to export GOOGLE_APPLICATION_CREDENTIALS=xxx.json
   gcloud config set project 
 ```
 
-* You can install the terraform , go, packer with this script:
+* You can install terraform, go, packer with this script:
 ```bash
+pushd a3mega-deployment-set-main
 chmod 755 cloudshell-install-dependence.sh 
 sudo ./cloudshell-install-dependence.sh 
+popd
 ```
-* Then we need to run **make** command to build the **ghpc and gcluster** command.
+* Then we need to download and run **make** command to build the **ghpc and gcluster** command.
 
 ```bash
+git clone https://github.com/GoogleCloudPlatform/cluster-toolkit
+pushd cluster-toolkit
 make
+./gcluster --version
+./gcluster --help
+popd
 ```
 ---
 ## **Step 3: Deploy the Cluster 🎉**
 
 Since the deployment and blueprint files are provided by the team, There is no need to update them. 
 
-**Full Deployment** - This is the single click deployment: 
-If you never create the network and the image, please run this option:
+**Create Configuration Bucket** - this is required to hold the terraform state
+```bash
+export TF_STATE_BUCKET=oli-arc-bucket
+export PROJECT_ID=northam-ce-mlai-tpu
+export REGION=us-central1
+gcloud storage buckets create gs://${TF_STATE_BUCKET} \
+    --project=${PROJECT_ID} \
+    --default-storage-class=STANDARD \
+    --location=${REGION} \
+    --uniform-bucket-level-access
+gcloud storage buckets update gs://${TF_STATE_BUCKET} --versioning
+
+```
+
+**Full Deployment** - This is the single click deployment. If you did not yet create the network and built the image, please run this option, after you've updated the values in a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml (including ensuring that the `TF_STATE_BUCKET`, `PROJECT_ID`, and `REGION` variables are updated to reflect what's above and what you plan on setting up in your environment):
 
 ```bash
-./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml --auto-approve
+cluster-toolkit/gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml --auto-approve
 ```
 
 Note:  
