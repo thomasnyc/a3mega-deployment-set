@@ -21,6 +21,7 @@ unzip main.zip
 Get the tutorial up:
 ```bash
 teachme a3mega-deployment-set-main/tutorial.md
+```
 
 Now, you are ready for running the Prerequisties:
 
