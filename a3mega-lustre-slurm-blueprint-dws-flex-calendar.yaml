@@ -393,10 +393,26 @@ deployment_groups:
       local_mount: /gcs
       mount_options: defaults,rw,_netdev,implicit_dirs,allow_other,implicit_dirs,file_mode=777,dir_mode=777
       random_suffix: true
+
+  - id: gpunets
+    source: modules/network/multivpc
+    settings:
+      network_name_prefix: $(vars.deployment_name)-gpunet
+      global_ip_address_range: 10.0.0.0/9
+      network_count: 8
+      subnetwork_cidr_suffix: 20
+
+  # Private Service Access (PSA) requires the compute.networkAdmin role which is
+  # included in the Owner role, but not Editor.
+  # PSA is a best practice for Filestore instances, but can be optionally
+  # removed by deleting the private_service_access module and any references to
+  # the module by Filestore modules.
+  # https://cloud.google.com/vpc/docs/configure-private-services-access#permissions
   - id: private_service_access
     source: community/modules/network/private-service-access
     use:
     - sysnet
+  
   - id: homefs
     source: modules/file-system/filestore
     use:
@@ -426,21 +442,6 @@ deployment_groups:
 - group: cluster
   modules:
   # if an existing bucket is desired, follow modules/file-system/pre-existing-network-storage/README.md
-
-  - id: gpunets
-    source: modules/network/multivpc
-    settings:
-      network_name_prefix: $(vars.deployment_name)-gpunet
-      global_ip_address_range: 10.0.0.0/9
-      network_count: 8
-      subnetwork_cidr_suffix: 20
-
-  # Private Service Access (PSA) requires the compute.networkAdmin role which is
-  # included in the Owner role, but not Editor.
-  # PSA is a best practice for Filestore instances, but can be optionally
-  # removed by deleting the private_service_access module and any references to
-  # the module by Filestore modules.
-  # https://cloud.google.com/vpc/docs/configure-private-services-access#permissions
  
   - id: debug_nodeset
     use: [sysnet]
