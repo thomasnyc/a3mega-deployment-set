@@ -1,6 +1,8 @@
-## **Prerequisites**
+## **Prerequisites and Environment Setup**
 
-Before you begin, make sure you have the following:
+
+Before commencing the deployment process, ensure your environment meets the following prerequisites to guarantee a smooth and successful operation. This tutorial assumes familiarity with Google Cloud Platform (GCP), Terraform, and basic command-line operations.
+
 
 **Create Terrafrom State Bucket** - this is required to hold the terraform state. 
 ```bash
