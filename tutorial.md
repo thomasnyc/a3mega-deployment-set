@@ -2,6 +2,27 @@
 
 Before you begin, make sure you have the following:
 
+**Create Terrafrom State Bucket** - this is required to hold the terraform state. 
+```bash
+export TF_STATE_BUCKET=<Bucket name>
+export PROJECT_ID=<GCP Project ID>
+export REGION=<region in selection>
+gcloud storage buckets create gs://${TF_STATE_BUCKET} \
+    --project=${PROJECT_ID} \
+    --default-storage-class=STANDARD \
+    --location=${REGION} \
+    --uniform-bucket-level-access
+gcloud storage buckets update gs://${TF_STATE_BUCKET} --versioning
+```
+
+After creating the bucket, please update the deployment file with the terrafrom state bucket:
+
+```yaml
+terraform_backend_defaults:
+  type: gcs
+  configuration:
+    bucket: <GCP Bucket Name>
+```
 
 * A **Google Cloud Project** with an active billing account.
 * The **<code>gcloud</code> command-line tool** installed and authenticated (`gcloud auth login`) & (`gcloud auth application-default login`) follow the command below: 
@@ -27,14 +48,8 @@ Copy them to this command below
 export GOOGLE_APPLICATION_CREDENTIALS=
 ```
 
-* **Optional** You can install terraform, go, packer with this script:
-```bash
-pushd a3mega-deployment-set-main
-chmod 755 cloudshell-install-dependence.sh 
-sudo ./cloudshell-install-dependence.sh 
-popd
-```
-* Then we need to download and run **make** command to build the **ghpc and gcluster** command.
+* Then we need to run **make** command to build the **ghpc and gcluster** command. Cloud Shell should already have the Golang, Terraform and Packer
+installed:
 
 ```bash
 make
@@ -46,32 +61,17 @@ make
 
 Since the deployment and blueprint files are provided by the team, There is no need to update them. 
 
-**Create Terrafrom State Bucket** - this is required to hold the terraform state. 
-```bash
-export TF_STATE_BUCKET=<Bucket name>
-export PROJECT_ID=<GCP Project ID>
-export REGION=<region in selection>
-gcloud storage buckets create gs://${TF_STATE_BUCKET} \
-    --project=${PROJECT_ID} \
-    --default-storage-class=STANDARD \
-    --location=${REGION} \
-    --uniform-bucket-level-access
-gcloud storage buckets update gs://${TF_STATE_BUCKET} --versioning
-```
 
-After creating the bucket, please update the deployment file with the terrafrom state bucket:
+**Full Deployment** - This is the single click deployment. If you did not yet create the network and built the image, please run this option, after you've updated the values in a3mega-deployment-set-main/a3mega-slurm-deployment-customer.yaml (including ensuring that the `TF_STATE_BUCKET`, `PROJECT_ID`, and `REGION` variables are updated to reflect what's above and what you plan on setting up in your environment):
 
-```yaml
-terraform_backend_defaults:
-  type: gcs
-  configuration:
-    bucket: <GCP Bucket Name>
-```
-
-**Full Deployment** - This is the single click deployment. If you did not yet create the network and built the image, please run this option, after you've updated the values in a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml (including ensuring that the `TF_STATE_BUCKET`, `PROJECT_ID`, and `REGION` variables are updated to reflect what's above and what you plan on setting up in your environment):
-
+**DWS Flex only cluster** - This does not require any reservation / quota request prior. 
 ```bash
 ./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml --auto-approve
+```
+
+**DWS Calendar and Flex cluster** - This requires DWS Calendar reservation done prior.
+```bash
+./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint-dws-flex-calendar.yaml --auto-approve
 ```
 
 Note:  
@@ -100,8 +100,6 @@ Delele the clsuter only:
 ```bash
 ./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml -w  --only primary,cluster
 ```
-
-
 ---
 
 ## **Cleaning Up 🧹**
