@@ -46,6 +46,4 @@ t=<customer project id> --force
 * Limitation of Cloud Shell
 Cloud Shell has 5GB limit and 40 hours usage per week.
 If you need to get back to the same cloud shell session without downloading the git repo again. Please use this command:
-```bash
 https://ssh.cloud.google.com/cloudshell/editor
-```
