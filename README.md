@@ -9,10 +9,10 @@ This tutorial guides you through setting up a continuous integration (CI) pipeli
   https://github.com/GoogleCloudPlatform/cluster-toolkit
 
 
-To kick off the demo / tutorial, please click on the link:
+To kick off the demo / tutorial, please click on the link. This will open a new Cloud Shell session for you. 
 https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/GoogleCloudPlatform/cluster-toolkit
 
-Downloading the files here:
+Downloading the files here. You can run the following command at the cloud shell session 
 ```bash
 wget https://github.com/thomasnyc/a3mega-deployment-set/archive/refs/heads/main.zip
 unzip main.zip
@@ -37,8 +37,15 @@ gcloud alpha compute future-reservations create <dws name> --project=<customer p
 ```
 
 * if deployment sees the issue with Private Connection Access. Please run the following command:
-Please replace the ranges name (eg: global-psconnect-ip-a799d0f7 which is created on the fly and you can find the name from the message) , and project id 
+Please replace the ranges name (eg: global-psconnect-ip-a799d0f7 which is created on the fly and you can find the name from the message) , and project id and run the command. Then you can rerun the **SAME** deployment command.  
 ```bash
 gcloud services vpc-peerings update --service=servicenetworking.googleapis.com --ranges=<PSA range name> --network=a3mega-sys-net --projec
 t=<customer project id> --force
+```
+
+* Limitation of Cloud Shell
+Cloud Shell has 5GB limit and 40 hours usage per week.
+If you need to get back to the same cloud shell session without downloading the git repo again. Please use this command:
+```bash
+https://ssh.cloud.google.com/cloudshell/editor
 ```
