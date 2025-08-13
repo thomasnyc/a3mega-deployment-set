@@ -23,4 +23,22 @@ Get the tutorial up:
 teachme a3mega-deployment-set-main/tutorial.md
 ```
 
-Now you can follow the tutorial
+Now you can follow the tutorial.
+
+
+
+**Note** 
+
+* Creating the DWS Calendar reservation:
+  Please update the time, dws name, project id and run the gcloud command. You may need to run **gcloud components install alpha** prior. 
+```bash
+gcloud alpha compute future-reservations create <dws name> --project=<customer project id>  --auto-delete-auto-created-reservations --machine-type=a3-megagpu-8g --planning-status=SUBMITTED --require-specific-reservation --start-time=2025-08-15T19:00:00Z --end-time=2025-08-16T19:00:00Z --total-count=2 
+--zone=us-central1-a
+```
+
+* if deployment sees the issue with Private Connection Access. Please run the following command:
+Please replace the ranges name (eg: global-psconnect-ip-a799d0f7 which is created on the fly and you can find the name from the message) , and project id 
+```bash
+gcloud services vpc-peerings update --service=servicenetworking.googleapis.com --ranges=<PSA range name> --network=a3mega-sys-net --projec
+t=<customer project id> --force
+```
