@@ -26,8 +26,8 @@ vars:
   sys_net_range: 172.16.0.0/16
   source_image_family: ubuntu-accelerator-2204-amd64-with-nvidia-570
   source_image_project_id: [ubuntu-os-accelerator-images]
-  a3mega_flex_partition_name: a3mega-flex
-  a3mega_res_partition_name: a3mega-res
+  a3mega_flex_partition_name: a3megaflex
+  a3mega_res_partition_name: a3megares
   a3mega_maintenance_interval: ""
   local_mount_homefs: /home
   instance_image_custom: true
@@ -424,8 +424,8 @@ deployment_groups:
       local_mount: /home
       mount_options: "defaults,hard"
       deletion_protection:
-        enabled: true
-        reason: Avoid data loss
+        enabled: false
+      #  reason: Avoid data loss
     outputs:
     - network_storage
 
