@@ -1,10 +1,8 @@
 ## **Prerequisites and Environment Setup**
 
-
 Before commencing the deployment process, ensure your environment meets the following prerequisites to guarantee a smooth and successful operation. This tutorial assumes familiarity with Google Cloud Platform (GCP), Terraform, and basic command-line operations.
 
-
-**Create Terrafrom State Bucket** - this is required to hold the terraform state. 
+**Create Terraform State Bucket** - this is required to hold the terraform state. 
 ```bash
 export TF_STATE_BUCKET=<Bucket name>
 export PROJECT_ID=<GCP Project ID>
@@ -17,7 +15,7 @@ gcloud storage buckets create gs://${TF_STATE_BUCKET} \
 gcloud storage buckets update gs://${TF_STATE_BUCKET} --versioning
 ```
 
-After creating the bucket, please update the deployment file with the terrafrom state bucket:
+After creating the bucket, please update the blueprint file with the terraform state bucket:
 
 ```yaml
 terraform_backend_defaults:
@@ -58,7 +56,9 @@ make
 ./gcluster --version
 ./gcluster --help
 ```
+
 ---
+
 ## **Step 3: Deploy the Cluster 🎉**
 
 Since the deployment and blueprint files are provided by the team, There is no need to update them. 
@@ -73,16 +73,16 @@ Since the deployment and blueprint files are provided by the team, There is no n
 
 **DWS Calendar and Flex cluster** - This requires DWS Calendar reservation done prior.
 ```bash
-./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint-dws-flex-calendar.yaml --auto-approve
+./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint-dws-2-partitions.yaml --auto-approve
 ```
 
 Note:  
-Image builing process runs between 30 - 40 mins.
+Image building process runs between 30 - 40 mins.
 Managed Lustre creating process runs between 30 - 40 mins.
 
 
-**Cluster Deploy / Destory only**  - Deploy / Destroy the cluster only. This is for users who already created the network and have the custom image built. 
-If you want to Deploy / Destroy the clsuter only. Please follow the following steps: 
+**Cluster Deploy / Destroy only**  - Deploy / Destroy the cluster only. This is for users who already created the network and have the custom image built. 
+If you want to Deploy / Destroy the cluster only. Please follow the following steps: 
 
 Deploy the cluster only: 
 
@@ -102,13 +102,14 @@ Delele the clsuter only:
 ```bash
 ./gcluster deploy -d a3mega-deployment-set-main/a3mega-slurm-deployment-thomashk.yaml a3mega-deployment-set-main/a3mega-lustre-slurm-blueprint.yaml -w  --only primary,cluster
 ```
+
 ---
 
 ## **Cleaning Up 🧹**
 
 HPC clusters can be expensive, so it's critical to tear down your resources when you are finished.
 
-You can destroy the deployment by running the `ghpc destroy` command locally with the same deployment file.
+You can destroy the deployment by running the `gcluster destroy` command locally with the same deployment file.
 
 ```bash
 ./gcluster destroy a3mega-lustre-base --auto-approve
